@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "nodemon --watch server --watch webpack server/index.js",
+    "docs": "nodemon --watch docs --watch webpack server.js",
     "docs-prod": "npm run build-docs && NODE_ENV=production nodemon server/index.js",
     "build": "NODE_ENV=production gulp",
     "build-docs": "npm run clean && NODE_ENV=production webpack --config webpack-docs-prod.config.js --display-modules",

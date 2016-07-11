@@ -38,12 +38,12 @@ if (process.env.NODE_ENV === 'production') {
   /**
    * static server
    */
-  app.use( serve(path.join(__dirname, '../docs/')) );
+  app.use( serve(path.join(__dirname, './docs/')) );
 
 } else {
 
   const webpack = require('webpack');
-  const config = require('../webpack-docs.config');
+  const config = require('./webpack-docs.config');
   const compiler = webpack(config);
 
   app.use(require('koa-webpack-dev-middleware')(compiler, {
@@ -61,7 +61,7 @@ if (process.env.NODE_ENV === 'production') {
 /**
  * 页面视图
  */
-app.use(views(path.join(__dirname, '../docs/')));
+app.use(views(path.join(__dirname, './docs/')));
 
 /**
  * 页面路由
