@@ -24,7 +24,10 @@ const baseConfig = {
       test: /\.less$/,
       loader: ExtractTextPlugin.extract('style', 'css!less')
     }, { 
-      test: /\.(eot|ttf|svg|woff2?)$/, 
+      test: /\.(jpg|jpeg|gif|png)$/, 
+      loader: 'file?name=images/[name].[ext]'
+    }, { 
+      test: /\.(eot|ttf|svg|woff2?)(\?.*)?$/, 
       loader: 'file?name=fonts/[name].[ext]'
     }]
   },

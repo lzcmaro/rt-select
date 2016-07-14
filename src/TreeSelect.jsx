@@ -10,7 +10,7 @@ class TreeSelect extends React.Component {
   	
     return (
     	<div>
-    		TreeSelectExample
+    		TreeSelect
     	</div>      
     );
   }

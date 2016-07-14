@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "nodemon --watch docs --watch webpack server.js",
+    "docs": "nodemon --watch webpack server.js",
     "docs-prod": "npm run build-docs && NODE_ENV=production nodemon server/index.js",
     "build": "NODE_ENV=production gulp",
     "build-docs": "npm run clean && NODE_ENV=production webpack --config webpack-docs-prod.config.js --display-modules",
@@ -22,6 +22,8 @@
   "keywords": [
     "react",
     "react-component",
+    "tree",
+    "react-tree",
     "tree-select",
     "react-tree-select"
   ],
@@ -75,7 +77,6 @@
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "nodemon": "^1.8.1",
-    "react-bootstrap": "^0.28.5",
     "react-transform-hmr": "^1.0.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.0",
