@@ -9,8 +9,13 @@
   font-style: normal;
 }
 
+.rc-tree-panel { 
+	overflow: auto; 
 
-.rc-tree-panel {}
+	&.rc-tree-panel-bordered {
+		border: 1px solid #e7e7eb;
+	}
+}
 .rc-tree {
 	list-style-type: none;
 	margin: 0;
@@ -61,11 +66,6 @@
 	}
 	.icon-radio-0:before {
 	    content: "\ea56";
-	}
-
-	&.rc-tree-bordered {
-		border: 1px solid #ccc;
-		border-radius: 3px;
 	}
 
 	.rc-tree-node {
@@ -137,3 +137,82 @@
 		}
 	} 
 }
+
+.rc-tree-select {
+	min-width: 200px;
+	position: relative;
+	display: inline-block;
+  vertical-align: middle;
+
+  > .rc-tree-select-head {
+  	position: relative;
+    width: 100%;
+    height: 32px;  
+    line-height: 31px;
+    padding: 0 26px 0 0;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+    border: 1px solid #e7e7eb;
+    box-sizing: border-box;
+
+  	> label {
+  		display: block;
+  		width: 100%;
+  		height: 100%;
+  		text-indent: 8px;
+  		overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+  	}
+
+  	> .dropdown-toggle {
+  		position: absolute;
+	    top: 0;
+	    right: 0;
+	    width: 26px;
+	    height: 100%;
+	    border-left: 1px solid #e7e7eb;
+	    cursor: pointer;
+
+	    > i {
+	    	position: absolute;
+		    right: 8px;
+		    top: 14px;
+	    	display: block;
+		    width: 0;
+		    height: 0;
+		    margin-left: 2px;
+		    vertical-align: middle;
+		    border-top: 4px dashed;
+		    border-top: 4px solid\9;
+		    border-right: 4px solid transparent;
+		    border-left: 4px solid transparent;
+	    }
+  	}
+  }
+
+  > .rc-tree-select-menu {
+	  position: absolute;
+	  top: 100%;
+	  left: 0;
+	  z-index: 1000;
+	  // display: none;
+	  float: left;
+	  min-width: 200px;
+	  margin-top: 1px;
+	  font-size: 14px;
+	  text-align: left;
+	  background-color: #fff;
+	  border: 1px solid #e7e7eb;
+	  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	  background-clip: padding-box;
+	  box-sizing: border-box;
+	  overflow: auto;
+
+	  > .not-found-data {
+			
+	  }
+	}
+}
+

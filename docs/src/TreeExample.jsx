@@ -6,83 +6,33 @@ import { generateData } from './util'
 
 import '../../src/less/tree-select.less'
 
-const treeData = generateData(10, 5, 2);
-
 class TreeExample extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = {
+      tree: {},
+      tree2: {},
+      tree3: {}
+    }
   }
 
   render() {
-  	// let s = Date.now()
-   //  const treeNodes = this.renderTreeNodes(treeData)
-   //  console.log(Date.now() - s)
+  	
     return (
     	<div>
         <h3>单选</h3>
-        <Tree multiple defaultSelected={['0-1-0', '0-1-1']} defaultExpanded={['0-1']}>
-          <TreeNode value='0-0' text='0-0'>
-            <TreeNode value='0-0-0' text='0-0-0'>
-              <TreeNode value='0-0-0-0' text='0-0-0-0' />
-              <TreeNode value='0-0-0-1' text='0-0-0-1' />
-            </TreeNode>
-          </TreeNode>
-          <TreeNode value='0-1' text='0-1'>
-            <TreeNode value='0-1-0' text='0-1-0' />
-            <TreeNode value='0-1-1' text='0-1-1'>
-              <TreeNode value='0-1-1-0' text='0-1-1-0' />
-            </TreeNode>
-          </TreeNode>
-        </Tree>
-
-        <h3>单选</h3>
-        <Tree commbox defaultChecked={['0-1-1']} defaultExpanded={['0-1']}>
-          <TreeNode value='0-0' text='0-0'>
-            <TreeNode value='0-0-0' text='0-0-0'>
-              <TreeNode value='0-0-0-0' text='0-0-0-0' />
-              <TreeNode value='0-0-0-1' text='0-0-0-1' />
-            </TreeNode>
-          </TreeNode>
-          <TreeNode value='0-1' text='0-1'>
-            <TreeNode value='0-1-0' text='0-1-0' />
-            <TreeNode value='0-1-1' text='0-1-1'>
-              <TreeNode value='0-1-1-0' text='0-1-1-0' />
-            </TreeNode>
-          </TreeNode>
-        </Tree>
+        <Tree commbox width={250} height={350} data={generateData()}  defaultChecked={['0-1-0']} defaultExpanded={['0-1']}/>
 
         <h3>多选</h3>
-    		<Tree multiple commbox defaultChecked={['0-0-0-1', '0-1-1']} defaultExpanded={['0-1']}>
-    			<TreeNode value='0-0' text='0-0'>
-    				<TreeNode value='0-0-0' text='0-0-0'>
-    					<TreeNode value='0-0-0-0' text='0-0-0-0' />
-    					<TreeNode value='0-0-0-1' text='0-0-0-1' />
-    				</TreeNode>
-    			</TreeNode>
-    			<TreeNode value='0-1' text='0-1'>
-    				<TreeNode value='0-1-0' text='0-1-0' />
-            <TreeNode value='0-1-1' text='0-1-1'>
-              <TreeNode value='0-1-1-0' text='0-1-1-0' />
-            </TreeNode>
-    			</TreeNode>
-    		</Tree>
+    		<Tree multiple commbox data={generateData()}  defaultChecked={['0-0-0', '0-1-0', '0-1-1', '0-1-2']} defaultExpanded={['0-1']}/>
 
         <h3>多选</h3>
-        <Tree multiple commbox data={treeData} defaultChecked={['0-1-1']}>
-          
-        </Tree>
+        <Tree multiple commbox data={generateData(10, 5, 2)} defaultChecked={['0-7']}/>
     	</div>     
     );
-  }
-
-  renderTreeNodes(data) {
-    return data && data.length && data.map((item, index) => {
-      const { children, ...otherProps } = item
-      return (
-        <TreeNode {...otherProps} key={index}>{this.renderTreeNodes(children)}</TreeNode>
-      )
-    })
+    
   }
 }
 

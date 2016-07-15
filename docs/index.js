@@ -13,14 +13,14 @@ class App extends React.Component {
 		return (
 				<main className="main">
 					<section className="section">
-						<h3>Tree examples.</h3>
-						<TreeExample />
-					</section>
-
-					<section className="section">
 						<h3>TreeSelect examples.</h3>
 						<TreeSelectExample />
 					</section>
+
+					<section className="section">
+						<h3>Tree examples.</h3>
+						<TreeExample />
+					</section>			
 				</main>
 			)
 	}

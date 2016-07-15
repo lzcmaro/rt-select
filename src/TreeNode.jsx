@@ -39,7 +39,7 @@ class TreeNode extends React.Component {
     }
   	
     return (
-    	<li id={value} className={classnames(className, classes)}>
+    	<li className={classnames(className, classes)} aria-value={value} aria-expanded={expanded} aria-selected={selected}>
         {/** 叶节点，只添加空白的占位元素，用于文本对齐 **/}
         {this.isLeaf() ? <i /> : <i className="icon-arrow" onClick={this.onExpand}/>}
         {/** 添加commbox **/}
@@ -60,13 +60,13 @@ class TreeNode extends React.Component {
     const commboxCls = `${commboxPrefixCls}-${checked}`
 
     return (
-        <i className={commboxCls} onClick={this.onCheck} />
+        <i className={commboxCls} onClick={this.onCheck} aria-checked={checked} />
       )
   }
 
   isLeaf() {
-    const { leaf, children } = this.props
-    return leaf || !children
+    const { leaf, expanded, children } = this.props
+    return leaf || expanded && !children
   }
 
   /**
@@ -113,23 +113,6 @@ class TreeNode extends React.Component {
 
 TreeNode.propTypes = {
   /**
-   * 用于渲染节点的数据（这里没有把它展开，每个属性作为组件的属性来处理，是因为data中可能包含有业务数据，可能在外面会用到）
-   * {
-   *   id: string,
-   *   pid: string,
-   *   text: string,
-   *   selected: bool,
-   *   expanded: bool,
-   *   disabled: bool,
-   *   leaf: bool,
-   *   qtip: string, // 节点的提示信息
-   *   href: string,
-   *   hrefTarget: string
-   * }
-   * @type {[object]}
-   */
-  data: PropTypes.object,
-  /**
    * 节点value(ID)
    */
   value: PropTypes.string.isRequired,
@@ -142,7 +125,7 @@ TreeNode.propTypes = {
    */
   qtip: PropTypes.string,
   /**
-   * 是否选中
+   * 是否选中，0未选中，1选中（为了和checked统一，这里也使用number类型）
    */
   selected: PropTypes.number,
   /**
@@ -156,6 +139,10 @@ TreeNode.propTypes = {
    */
   multiple: PropTypes.bool,
   /**
+   * 是否显示复选框（多选模式）
+   */
+  commbox: PropTypes.bool,
+  /**
    * 是否展开
    */
   expanded: PropTypes.number,
@@ -168,9 +155,9 @@ TreeNode.propTypes = {
    */
   leaf: PropTypes.bool,
   /**
-   * 是否显示复选框（多选模式）
+   * 是否显示节点箭头
    */
-  commbox: PropTypes.bool,
+  useArrow: PropTypes.bool,
   /**
    * 单击节点（文本）时，是否展开节点
    */
@@ -181,12 +168,13 @@ TreeNode.propTypes = {
    */
   onSelect: PropTypes.func,
   /**
-   * 选取节点时的回调事件
+   * 选取commbox时的回调事件
    * @type {[function(isChecked, node)]}
    */
   onCheck: PropTypes.func,
   /**
-   * 展开节点时的回调事件
+   * 展开或收缩节点时的回调事件
+   * @type {[function(isExpanded, node)]}
    */
   onExpand: PropTypes.func
 }
