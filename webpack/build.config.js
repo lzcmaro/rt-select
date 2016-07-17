@@ -6,7 +6,7 @@ import webpack from 'webpack';
 export default extend({}, baseConfig, {
   output: {
     path: path.resolve('./dist'),
-    filename: 'react-bootstrap-datatable.js'
+    filename: 'react-select.js'
   },
 	entry: './src/index',
   externals: [{

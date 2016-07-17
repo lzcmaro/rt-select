@@ -1,19 +1,19 @@
 {
-  "name": "react-tree-select",
+  "name": "react-select",
   "version": "1.0.0",
   "description": "It's a react table for bootstrap",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "nodemon --watch webpack server.js",
-    "docs-prod": "npm run build-docs && NODE_ENV=production nodemon server/index.js",
+    "docs-prod": "NODE_ENV=production nodemon server.js",
     "build": "NODE_ENV=production gulp",
     "build-docs": "npm run clean && NODE_ENV=production webpack --config webpack-docs-prod.config.js --display-modules",
     "clean": "rimraf docs/assets/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lzcmaro/react-tree-select.git"
+    "url": "git+https://github.com/lzcmaro/react-select.git"
   },
   "files": [
     "dist",
@@ -30,9 +30,9 @@
   "author": "lzcmaro",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lzcmaro/react-tree-select/issues"
+    "url": "https://github.com/lzcmaro/react-select/issues"
   },
-  "homepage": "https://github.com/lzcmaro/react-tree-select#readme",
+  "homepage": "https://github.com/lzcmaro/react-select#readme",
   "peerDependencies": {
     "react": "^0.14.5",
     "react-dom": "^0.14.5"

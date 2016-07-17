@@ -1,12 +1,52 @@
 import React from 'react'
 
 import Tree from '../../src/Tree'
-import TreeSelect from '../../src/TreeSelect'
+import Select from '../../src/Select'
 import { generateData } from './util'
 
 import '../../src/less/tree-select.less'
 
-const treeData = generateData(10, 5, 2)
+// const treeData = generateData(10, 5, 2)
+const treeData = [{
+	id: '1',
+	text: '北京市',
+	children: [{
+			id: '1-0',
+			text: '平谷区',
+			children: [{
+					id: '1-0-0',
+						text: '夏谷庄镇',
+						children: [{
+								id: '1-0-0-0',
+								text: '马各庄村'
+							}]
+				}]
+		}, {
+			id: '1-1',
+			text: '顺义区',
+			children: [{
+					id: '1-1-0',
+						text: '杨镇',
+						children: [{
+								id: '1-1-0-0',
+								text: '李各庄村'
+							}, {
+								id: '1-1-0-1',
+								text: '一街村'
+							}, {
+								id: '1-1-0-2',
+								text: '二郎庙村'
+							}]
+				}, {
+					id: '1-1-1',
+						text: '木林镇',
+						children: [{
+								id: '1-1-1-0',
+								text: '荣各庄村'
+							}]
+				}]
+		}]
+}]
 
 class TreeSelectExample extends React.Component {
 
@@ -23,9 +63,18 @@ class TreeSelectExample extends React.Component {
     });
 
     this.state = {
+    	treeData: treeData,
     	expandAll: false,
-    	checked: []
+    	checked: null
     }
+  }
+
+  componentDidMount() {
+  	// setTimeout(() => {
+  	// 	this.setState({
+  	// 		treeData: generateData(10, 5, 2)
+  	// 	})
+  	// }, 3000)
   }
 
   render() {
@@ -33,7 +82,7 @@ class TreeSelectExample extends React.Component {
   	const toolbarStyle = {
   		height: '30px',
   		lineHeight: '30px',
-  		borderBottom: '1px solid #ccc',
+  		borderBottom: '1px solid #e5e5e5',
   		textAlign: 'center'
   	}
 
@@ -41,50 +90,49 @@ class TreeSelectExample extends React.Component {
   		marginRight: '10px'
   	}
 
-  	const { expandAll, checked } = this.state
+  	const { expandAll, checked, treeData } = this.state
   	
     return (
-    	<TreeSelect style={{width: 200}} menuStyle={{minWidth: 200, maxHeight: 300}}>
+    	<Select search style={{width: 200}} menuStyle={{minWidth: 200, maxHeight: 300}}>
     		<div style={toolbarStyle}>
-    			<a href="javascript:;" style={linkStyle} onClick={this.toggleExpand.bind(this, true)}>全部展开</a>
-    			<a href="javascript:;" style={linkStyle} onClick={this.toggleExpand.bind(this, false)}>全部收缩</a>
+    			<a href="javascript:;" style={linkStyle} onClick={this.toggleExpand.bind(this)}>展开 / 收缩</a>
     		</div>
     		<Tree 
-    			multiple 
-    			commbox 
+    			multiple
+    			commbox
     			expandAll={expandAll} 
-    			defaultExpanded={['0-1']}
+    			defaultExpanded={['1', '0-1']}
     			data={treeData}
     			checked={checked}
+    			defaultChecked={['1-0']}
     			onExpand={this.onExpand}
     			onSelect={this.onSelect}
     			onCheck={this.onCheck}
     			onChange={this.onChange}/>
-    	</TreeSelect>      
+    	</Select>      
     );
   }
 
   onExpand(expanded, node) {
-  	console.log('onExpand: ', expanded, node)
+  	// console.log('onExpand: ', expanded, node)
   }
 
   onSelect(selected, value, data, node) {
-  	console.log('onSelect: ', selected, value, data, node)
+  	// console.log('onSelect: ', selected, value, data, node)
   }
 
   onCheck(checked, value, data, node) {
-  	console.log('onCheck: ', checked, value, data, node)
+  	// console.log('onCheck: ', checked, value, data, node)
   }
 
   onChange(value, data, node) {
-  	this.setState({
-  		checked: value
-  	})
+  	// console.log('onChange: ', value)
+  	this.setState({checked: value})
   }
 
-  toggleExpand(state) {
+  toggleExpand() {
   	this.setState({
-  		expandAll: state
+  		expandAll: !this.state.expandAll
   	})
   }
 }

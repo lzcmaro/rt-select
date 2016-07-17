@@ -9,15 +9,16 @@ baseConfig.plugins.push(
     }
   }) 
 );
-baseConfig.plugins.push( 
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    }
-  })
-);
+// baseConfig.plugins.push( 
+//   new webpack.optimize.UglifyJsPlugin({
+//     compress: {
+//       warnings: false
+//     }
+//   })
+// );
 
 export default extend({}, baseConfig, {
+  devtool: 'source-map',
 	entry: {
     main: [
       './docs/index'

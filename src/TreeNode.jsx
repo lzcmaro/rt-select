@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react'
 import classnames from 'classnames'
 
-import { prefix } from './utils'
-
-const noop = () => {};
+import { prefix, noop, CHECKBOX_CHECKED, CHECKBOX_UNCHECKED, CHECKBOX_PARTIAL, booleanToCheckState } from './helpers/util'
 
 class TreeNode extends React.Component {
 
@@ -19,12 +17,6 @@ class TreeNode extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { multiple, commbox, checked, selected, expanded, children } = this.props
-    // 节点在check时，会有关联操作，可能它的children也发生了变化，这里需要判断
-    return children !== nextProps.children || checked !== nextProps.checked || selected !== nextProps.selected || expanded !== nextProps.expanded
-  }
-
   render() {
     const props = this.props
     const { value, text, selected, multiple, commbox, checked, expanded, qtip, className, children } = props
@@ -34,7 +26,7 @@ class TreeNode extends React.Component {
       // 展开节点后的样式
       [prefix(props, 'expanded')]: expanded,
       // 没有commbox时，选中行的样式
-      [prefix(props, 'selected')]: !commbox && selected,
+      [prefix(props, 'selected')]: selected,
       [prefix(props, 'checked')]: checked
     }
   	
@@ -90,24 +82,23 @@ class TreeNode extends React.Component {
   onExpand() {
     // console.log('onExpand', this)
     const { expanded, onExpand } = this.props
-    onExpand(expanded === 1 ? 0 : 1, this)
+    onExpand(!expanded, this)
   }
 
   onSelect() {
-    // console.log('onSelect', this)
-    const { commbox, selected, onSelect } = this.props
-
-    // 存在commbox时，不触发其onSelect事件
-    if (!commbox) {
-      onSelect(selected === 1 ? 0 : 1, this)
+    const { multiple, commbox, selected, onSelect, onCheck } = this.props
+    // 单选，且存在commbox时，触发其onCheck事件
+    if (!multiple && commbox) {
+      onCheck(booleanToCheckState(!selected), this)
+    } else {
+      onSelect(!selected, this)
     }
-    
   }
 
   onCheck() {
     const { checked, onCheck } = this.props
     // 选中状态，点击后，设为未选中状态，而半选或未选中状态在点击后，都将设为选中状态
-    onCheck(checked === 1 ? 0 : 1, this)
+    onCheck(checked === CHECKBOX_CHECKED ? CHECKBOX_UNCHECKED : CHECKBOX_CHECKED, this)
   }
 }
 
@@ -125,9 +116,9 @@ TreeNode.propTypes = {
    */
   qtip: PropTypes.string,
   /**
-   * 是否选中，0未选中，1选中（为了和checked统一，这里也使用number类型）
+   * 是否选中
    */
-  selected: PropTypes.number,
+  selected: PropTypes.bool,
   /**
    * 是否选中checkbox（仅在commbox=true时有效）
    * 其中0为未选中，1为选中，2为半选中
@@ -145,7 +136,7 @@ TreeNode.propTypes = {
   /**
    * 是否展开
    */
-  expanded: PropTypes.number,
+  expanded: PropTypes.bool,
   /**
    * 是否设为disable，让它不可选
    */

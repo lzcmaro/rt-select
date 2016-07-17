@@ -10,12 +10,6 @@ class TreeExample extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      tree: {},
-      tree2: {},
-      tree3: {}
-    }
   }
 
   render() {
@@ -32,7 +26,7 @@ class TreeExample extends React.Component {
         <Tree multiple commbox data={generateData(10, 5, 2)} defaultChecked={['0-7']}/>
     	</div>     
     );
-    
+
   }
 }
 

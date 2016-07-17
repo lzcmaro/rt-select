@@ -14,6 +14,7 @@ var webpackConfig = require('./webpack.config.js');
 
 var DIR_DIST = 'dist/';
 var DIR_DIST_CSS = 'dist/css'
+var DIR_DIST_FONTS = 'dist/fonts'
 var DIR_LIB = 'lib/'
 
 gulp.task('webpack', function() {
@@ -35,12 +36,17 @@ gulp.task('webpack', function() {
 gulp.task('less', function() {
 	return gulp.src('./src/less/*.less')
 		.pipe(less())
-		.pipe(rename('react-tree-select.css'))
+		.pipe(rename('react-select.css'))
     .pipe(gulp.dest(DIR_DIST_CSS))
     .pipe(minifyCss())
-    .pipe(rename('react-tree-select.min.css'))
+    .pipe(rename('react-select.min.css'))
     .pipe(gulp.dest(DIR_DIST_CSS))
 });
+
+gulp.task('fonts', function() {
+    return gulp.src('./src/fonts/*')
+        .pipe(gulp.dest(DIR_DIST_FONTS))
+})
 
 gulp.task('babel', function() {
 	return gulp.src(['./src/*.js', './src/*.jsx'])
@@ -54,5 +60,5 @@ gulp.task('clean', function() {
 });
 
 gulp.task('default', ['clean'], function() {
-  gulp.run('webpack', 'less', 'babel');
+  gulp.run('webpack', 'less', 'fonts', 'babel');
 });

@@ -19,7 +19,12 @@
 .rc-tree {
 	list-style-type: none;
 	margin: 0;
-	padding: 10px 5px;
+	padding: 5px;
+	outline: 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
 	[class^="icon-"], [class*="icon-"] {
 	  /* use !important to prevent issues with browser extensions that change fonts */
@@ -37,35 +42,35 @@
 	}
 
 	.icon-home:before {
-	    content: "\e900";
+	  content: "\e900";
 	}
 	.icon-file:before {
-	    content: "\e924";
+	  content: "\e924";
 	}
 	.icon-folder:before {
-	    content: "\e92f";
+	  content: "\e92f";
 	}
 	.icon-folder-open:before {
-	    content: "\e930";
+	  content: "\e930";
 	}
 	.icon-spinner:before {
-	    content: "\e97a";
+	  content: "\e97a";
 	}
 	.icon-arrow:before {
-	    content: "\ea1c";
+	  content: "\ea1c";
 	}
 	.icon-checkbox-1:before {
-	    content: "\ea52";
+		content: "\ea52";
 	}
 	.icon-checkbox-0:before,
 	.icon-checkbox-2:before {
-	    content: "\ea53";
+	  content: "\ea53";
 	}
 	.icon-radio-1:before {
-	    content: "\ea54";
+	  content: "\ea54";
 	}
 	.icon-radio-0:before {
-	    content: "\ea56";
+	  content: "\ea56";
 	}
 
 	.rc-tree-node {
@@ -77,8 +82,7 @@
 		line-height: 24px;
 
 		> i {
-			margin-right: 2px;
-	    margin-top: 2px;
+			margin: 2px 2px 0 0;
 	    width: 16px;
 	    height: 16px;
 	    display: block;
@@ -86,7 +90,6 @@
 	    vertical-align: middle;
 	    border: 0 none;
 	    cursor: pointer;
-	    outline: none;
 	    color: #444;
 
 	    &.icon-arrow {
@@ -98,13 +101,13 @@
 		}
 
 		> a {
-			display: block;
-	    padding: 2px 0;
+			display: inline-block;
+	    padding: 2px 3px;
 	    cursor: pointer;
 	    font-size: 14px;
 	    text-decoration: none;
 	    line-height: 18px;
-	    vertical-align: middle;
+	    vertical-align: top;
 	    color: #333;
 	    text-align: left;
 
@@ -115,11 +118,15 @@
 
 		> ul {
 			display: none;
-			padding-left: 18px;
+			margin: 0;
+			padding: 0 0 0 18px;
 		}
 
 		&.rc-tree-node-selected > a {
 			background: #e6e6e6;
+			border: 1px solid #ccc;
+			line-height: 16px;
+			padding: 2px 4px;
 		}
 
 		&.rc-tree-node-expanded {
@@ -132,19 +139,18 @@
 				-ms-transform: rotate(90deg);
 				-moz-transform: rotate(90deg);
 				-webkit-transform: rotate(90deg);
-				-o-transform: rotate(90deg);
 			}
 		}
 	} 
 }
 
-.rc-tree-select {
+.rc-select {
 	min-width: 200px;
 	position: relative;
 	display: inline-block;
   vertical-align: middle;
 
-  > .rc-tree-select-head {
+  > .rc-select-head {
   	position: relative;
     width: 100%;
     height: 32px;  
@@ -192,7 +198,7 @@
   	}
   }
 
-  > .rc-tree-select-menu {
+  > .rc-select-menu {
 	  position: absolute;
 	  top: 100%;
 	  left: 0;
@@ -210,8 +216,24 @@
 	  box-sizing: border-box;
 	  overflow: auto;
 
-	  > .not-found-data {
-			
+	  .empty-data-text {
+	  	margin: 40px 0;
+			text-align: center;
+	  }
+
+	  .search-input-wrapper {
+	  	height: 32px;
+	  	padding: 5px;
+
+	  	> input {
+	  		width: 100%;
+	  		height: 100%;
+	  		padding: 1px 5px;
+	  		font-size: 12px;
+	  		border: 1px solid #e7e7eb;
+	  		box-sizing: border-box;
+	  		outline: none;
+	  	}
 	  }
 	}
 }

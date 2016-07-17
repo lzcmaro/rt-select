@@ -1,5 +1,4 @@
-import TreeNode from './TreeNode'
 import Tree from './Tree'
-import TreeSelect from './TreeSelect'
+import Select from './Select'
 
-export default { TreeNode, Tree, TreeSelect }
+export default { Tree, Select }
