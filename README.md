@@ -1,2 +1,2 @@
-# react-tree-select
-tree-select ui component for react
+# react-select
+select, tree-select ui component for react
