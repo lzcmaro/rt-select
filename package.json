@@ -41,7 +41,6 @@
     "classnames": "^2.2.3",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
-    "react-overlays": "^0.6.5",
     "warning": "^2.1.0"
   },
   "devDependencies": {
