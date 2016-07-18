@@ -308,7 +308,7 @@ class Tree extends React.Component {
       onChange(values, datas, node)
     } else {
       // 单项选择，在取消选中时，返回空
-      selected ? onChange(value, data, node) : onChange(undefined, undefined, node)
+      selected ? onChange([value], [data], node) : onChange(undefined, undefined, node)
     }
   }
 
@@ -534,5 +534,7 @@ Tree.defaultProps = {
   onCheck: noop,
   onChange: noop
 }
+
+Tree.elementType = 'Tree'
 
 export default Tree;

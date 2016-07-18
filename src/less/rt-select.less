@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.eot?bkbjik');
-  src: url('../fonts/icomoon.eot?bkbjik#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?bkbjik') format('truetype'),
-    url('../fonts/icomoon.woff?bkbjik') format('woff'),
-    url('../fonts/icomoon.svg?bkbjik#icomoon') format('svg');
+  src: url('../icomoon-fonts/icomoon.eot?bkbjik');
+  src: url('../icomoon-fonts/icomoon.eot?bkbjik#iefix') format('embedded-opentype'),
+    url('../icomoon-fonts/icomoon.ttf?bkbjik') format('truetype'),
+    url('../icomoon-fonts/icomoon.woff?bkbjik') format('woff'),
+    url('../icomoon-fonts/icomoon.svg?bkbjik#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -35,21 +35,20 @@
 		line-height: 24px;
 
 		> i {
-			margin: 2px 2px 0 0;
-	    width: 16px;
-	    height: 16px;
-	    display: block;
+			display: block;
 	    float: left;
+			margin: 5px 3px 0 0;
+	    width: 14px;
+	    height: 14px;
+	    font-size: 14px;
 	    vertical-align: middle;
 	    border: 0 none;
 	    cursor: pointer;
 	    color: #444;
 
 	    &.icon-arrow {
-	    	width: 12px;
-	    	height: 12px;
-	    	padding: 2px;   
-		    font-size: 12px;
+	    	padding: 1px; 
+	    	font-size: 12px;
 			}
 		}
 
@@ -59,7 +58,7 @@
 	    cursor: pointer;
 	    font-size: 14px;
 	    text-decoration: none;
-	    line-height: 18px;
+	    line-height: 20px;
 	    vertical-align: top;
 	    color: #333;
 	    text-align: left;
@@ -76,9 +75,9 @@
 		}
 
 		&.rc-tree-node-selected > a {
+			line-height: 18px;
 			background: #e6e6e6;
 			border: 1px solid #ccc;
-			line-height: 16px;
 			padding: 2px 4px;
 		}
 
@@ -113,12 +112,12 @@
     color: #333;
     text-align: left;
     border: 1px solid #e7e7eb;
-    box-sizing: border-box;
 
   	> label {
   		display: block;
   		width: 100%;
   		height: 100%;
+  		font-weight: 400;
   		text-indent: 8px;
   		overflow: hidden;
 			white-space: nowrap;
@@ -167,7 +166,6 @@
 	  border: 1px solid #e7e7eb;
 	  box-shadow: 0 6px 12px rgba(0,0,0,.175);
 	  background-clip: padding-box;
-	  box-sizing: border-box;
 	  overflow: auto;
 
 	  .empty-data-text {
@@ -177,11 +175,13 @@
 
 	  .search-input-wrapper {
 	  	position: relative;
-	  	height: 30px;
+	  	height: 40px;
 	  	padding: 5px;
 
 	  	> .icon-search {
 	  		display: block;
+	  		width: 18px;
+	  		height: 18px;
 	  		position: absolute;
 	  		top: 12px;
 	  		right: 10px;
@@ -196,7 +196,6 @@
 	  		font-size: 12px;
 	  		border: 1px solid #e7e7eb;
 	  		outline: none;
-	  		box-sizing: border-box;
 	  	}
 	  }
 	}
@@ -213,10 +212,17 @@
 	  font-variant: normal;
 	  text-transform: none;
 	  line-height: 1;
+	  background-image: none;
 
 	  /* Better Font Rendering =========== */
 	  -webkit-font-smoothing: antialiased;
 	  -moz-osx-font-smoothing: grayscale;
+	}
+
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 
 	.icon-home:before {

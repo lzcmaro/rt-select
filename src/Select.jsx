@@ -156,11 +156,7 @@ class Select extends React.Component {
     const style = {...(menuStyle || {}), display: menuVisible ? 'block' : 'none'}
     
     return (
-      <div 
-        ref="menu" 
-        style={style} 
-        className={`${prefixCls}-menu`} 
-        onClick={this._suppressRootCloseHandler} >
+      <div style={style} className={`${prefixCls}-menu`} onClick={this._suppressRootCloseHandler}>
         {/** TODO: 是否有递归遍历其所有子节点，找到这里需要接管的组件（Tree, List）？**/}
         {React.Children.map(children, child => {
           // 节点为Tree组件时，给它添加相应的属性与事件，以便Tree和Select关联起来
@@ -259,7 +255,7 @@ class Select extends React.Component {
    * 由于并不依懒于Tree, List组件，所以这里仅以它的displayName来判断
    */
   isValidElement(element) {
-    const elementType = element.type ? element.type.name : undefined
+    const elementType = element.type ? element.type.elementType : undefined
     return elementType && (this.isTreeElement(elementType) || this.isListElement(elementType)) ? elementType : false
   }
 
