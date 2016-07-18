@@ -36,10 +36,9 @@ gulp.task('webpack', function() {
 gulp.task('less', function() {
 	return gulp.src('./src/less/*.less')
 		.pipe(less())
-		.pipe(rename('react-select.css'))
     .pipe(gulp.dest(DIR_DIST_CSS))
     .pipe(minifyCss())
-    .pipe(rename('react-select.min.css'))
+    .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest(DIR_DIST_CSS))
 });
 
@@ -49,7 +48,7 @@ gulp.task('fonts', function() {
 })
 
 gulp.task('babel', function() {
-	return gulp.src(['./src/*.js', './src/*.jsx'])
+	return gulp.src(['./src/**/*.js', './src/**/*.jsx'])
     .pipe(babel())
     .pipe(gulp.dest(DIR_LIB))
 });

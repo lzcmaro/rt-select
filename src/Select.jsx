@@ -191,8 +191,6 @@ class Select extends React.Component {
 
               element = React.cloneElement(child, props)
             }
-
-            console.log('search', search)
             
             // 添加搜索框
             if (search) {
@@ -260,7 +258,7 @@ class Select extends React.Component {
    * 由于并不依懒于Tree, List组件，所以这里仅以它的displayName来判断
    */
   isValidElement(element) {
-    const elementType = element.type ? element.type.displayName : undefined
+    const elementType = element.type ? element.type.name : undefined
     return elementType && (this.isTreeElement(elementType) || this.isListElement(elementType)) ? elementType : false
   }
 

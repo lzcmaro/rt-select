@@ -6,7 +6,7 @@ import webpack from 'webpack';
 export default extend({}, baseConfig, {
   output: {
     path: path.resolve('./dist'),
-    filename: 'react-select.js'
+    filename: 'rt-select.js'
   },
 	entry: './src/index',
   externals: [{

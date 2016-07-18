@@ -4,8 +4,6 @@ import Tree from '../../src/Tree'
 import Select from '../../src/Select'
 import { generateData } from './util'
 
-import '../../src/less/tree-select.less'
-
 // const treeData = generateData(10, 5, 2)
 const treeData = [{
 	id: '1',
@@ -82,7 +80,7 @@ class TreeSelectExample extends React.Component {
   	const toolbarStyle = {
   		height: '30px',
   		lineHeight: '30px',
-  		borderBottom: '1px solid #e5e5e5',
+  		borderBottom: '1px solid #e7e7eb',
   		textAlign: 'center'
   	}
 

@@ -4,8 +4,7 @@ import { render } from 'react-dom';
 import TreeExample from './src/TreeExample';
 import TreeSelectExample from './src/TreeSelectExample';
 
-import '../src/less/tree.less'
-import '../src/less/tree-select.less'
+import '../src/less/rt-select.less'
 import './app.less'
 
 class App extends React.Component {

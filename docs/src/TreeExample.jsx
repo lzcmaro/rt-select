@@ -4,8 +4,6 @@ import Tree from '../../src/Tree'
 import TreeNode from '../../src/TreeNode'
 import { generateData } from './util'
 
-import '../../src/less/tree-select.less'
-
 class TreeExample extends React.Component {
 
   constructor(props) {
