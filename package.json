@@ -1,6 +1,6 @@
 {
   "name": "rt-select",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "tree, select, tree-select ui component for react",
   "main": "lib/index.js",
   "scripts": {

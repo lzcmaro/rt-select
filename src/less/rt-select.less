@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.eot?49hu5s');
-  src: url('../fonts/icomoon.eot?49hu5s#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?49hu5s') format('truetype'),
-    url('../fonts/icomoon.woff?49hu5s') format('woff'),
-    url('../fonts/icomoon.svg?49hu5s#icomoon') format('svg');
+  src: url('../fonts/icomoon.eot?bkbjik');
+  src: url('../fonts/icomoon.eot?bkbjik#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?bkbjik') format('truetype'),
+    url('../fonts/icomoon.woff?bkbjik') format('woff'),
+    url('../fonts/icomoon.svg?bkbjik#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,53 +25,6 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-
-	[class^="icon-"], [class*="icon-"] {
-	  /* use !important to prevent issues with browser extensions that change fonts */
-	  font-family: 'icomoon' !important;
-	  speak: none;
-	  font-style: normal;
-	  font-weight: normal;
-	  font-variant: normal;
-	  text-transform: none;
-	  line-height: 1;
-
-	  /* Better Font Rendering =========== */
-	  -webkit-font-smoothing: antialiased;
-	  -moz-osx-font-smoothing: grayscale;
-	}
-
-	.icon-home:before {
-	  content: "\e900";
-	}
-	.icon-file:before {
-	  content: "\e924";
-	}
-	.icon-folder:before {
-	  content: "\e92f";
-	}
-	.icon-folder-open:before {
-	  content: "\e930";
-	}
-	.icon-spinner:before {
-	  content: "\e97a";
-	}
-	.icon-arrow:before {
-	  content: "\ea1c";
-	}
-	.icon-checkbox-1:before {
-		content: "\ea52";
-	}
-	.icon-checkbox-0:before,
-	.icon-checkbox-2:before {
-	  content: "\ea53";
-	}
-	.icon-radio-1:before {
-	  content: "\ea54";
-	}
-	.icon-radio-0:before {
-	  content: "\ea56";
-	}
 
 	.rc-tree-node {
 		list-style: none;
@@ -223,19 +176,82 @@
 	  }
 
 	  .search-input-wrapper {
+	  	position: relative;
 	  	height: 30px;
 	  	padding: 5px;
+
+	  	> .icon-search {
+	  		display: block;
+	  		position: absolute;
+	  		top: 12px;
+	  		right: 10px;
+	  		font-size: 18px;
+		    color: #bfbfbf;
+	  	}
 
 	  	> input {
 	  		width: 100%;
 	  		line-height: 28px;
-	  		text-indent: 4px;
+	  		padding: 0 26px 0 5px;
 	  		font-size: 12px;
 	  		border: 1px solid #e7e7eb;
 	  		outline: none;
-	  		margin-left: -1px;
+	  		box-sizing: border-box;
 	  	}
 	  }
 	}
+}
+
+.rc-tree,
+.rc-select {
+	[class^="icon-"], [class*="icon-"] {
+	  /* use !important to prevent issues with browser extensions that change fonts */
+	  font-family: 'icomoon' !important;
+	  speak: none;
+	  font-style: normal;
+	  font-weight: normal;
+	  font-variant: normal;
+	  text-transform: none;
+	  line-height: 1;
+
+	  /* Better Font Rendering =========== */
+	  -webkit-font-smoothing: antialiased;
+	  -moz-osx-font-smoothing: grayscale;
+	}
+
+	.icon-home:before {
+	  content: "\e900";
+	}
+	.icon-file:before {
+	  content: "\e924";
+	}
+	.icon-folder:before {
+	  content: "\e92f";
+	}
+	.icon-folder-open:before {
+	  content: "\e930";
+	}
+	.icon-spinner:before {
+	  content: "\e97a";
+	}
+	.icon-arrow:before {
+	  content: "\ea1c";
+	}
+	.icon-checkbox-1:before {
+		content: "\ea52";
+	}
+	.icon-checkbox-0:before,
+	.icon-checkbox-2:before {
+	  content: "\ea53";
+	}
+	.icon-radio-1:before {
+	  content: "\ea54";
+	}
+	.icon-radio-0:before {
+	  content: "\ea56";
+	}
+	.icon-search:before {
+    content: "\e986";
+  }
 }
 

@@ -143,7 +143,7 @@ class Select extends React.Component {
     	<div {...otherProps} className={classnames(className, prefixCls)}>
     		<div className={`${prefixCls}-head`} onClick={this.toggleMenuVisible}>
           <label>{this.state.inputValue}</label>
-          <div className="dropdown-toggle" onClick={this.toggleMenuVisible}><i/></div>
+          <div className="dropdown-toggle"><i/></div>
         </div>
         {this.renderMenu()}
     	</div>      
@@ -203,6 +203,7 @@ class Select extends React.Component {
                       placeholder={searchInputPlaceholder}
                       value={searchInputValue}
                       onChange={this.handleSearchInputChange}/>
+                    <i className="icon-search"/>
                   </div>
                   {element}
                 </div>
@@ -410,8 +411,6 @@ Select.propTypes = {
    * @type {String}
    */
   emptyDataText: PropTypes.string,
-
-  inputValue: PropTypes.string,
   /**
    * 是否启用节点过滤功能
    * @type {Boolean}
