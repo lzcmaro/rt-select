@@ -141,7 +141,7 @@ class Select extends React.Component {
 
     return (
     	<div {...otherProps} className={classnames(className, prefixCls)}>
-    		<div className={`${prefixCls}-head`}>
+    		<div className={`${prefixCls}-head`} onClick={this.toggleMenuVisible}>
           <label>{this.state.inputValue}</label>
           <div className="dropdown-toggle" onClick={this.toggleMenuVisible}><i/></div>
         </div>
