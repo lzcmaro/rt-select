@@ -89,7 +89,7 @@ class Select extends React.Component {
      */
     this.menuType = null
     this.searchInputRef = 'search-input'
-    this.initializeMenuProps(props)
+    this.initializeMenuProps(props, true)
 
     /**
      * 存储tree数据的类对象，用于数据搜索
@@ -105,27 +105,7 @@ class Select extends React.Component {
   }
 
   componentDidMount() {
-    const { 
-      data,
-      commbox, 
-      selected, 
-      defaultSeleced, 
-      checked, 
-      defaultChecked
-    } = this.menuProps
 
-    const dataList = this.menuProps['data']
-    let selectedValues = (commbox ? (checked || defaultChecked) : (selected || defaultSeleced)) || []
-    let selectedDatas = []
-    // 根据节点选中项设置inputValue
-    selectedValues.forEach(value => {
-      const node = this.dataTree.searchDFS((data) => {
-        return data.id === value
-      })
-      node && selectedDatas.push(node.data())
-    })
-
-    this.setInputValue(selectedDatas)
   }
 
   componentWillUnmount() {
@@ -133,7 +113,7 @@ class Select extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+    this.initializeMenuProps(nextProps, false)
   }
 
   render() {
@@ -215,13 +195,13 @@ class Select extends React.Component {
     )
   }
 
-  initializeMenuProps(props) {
+  initializeMenuProps(props, initial) {
     // TODO: 是否有必要遍历其所有子节点，找到这里需要接管的组件（Tree, List）？
     React.Children.forEach(props.children, child => {
       // 节点为Tree, List组件时，给它添加相应的属性与事件，以便Tree和Select关联起来
       const elementType = this.isValidElement(child)
       if (elementType) {
-        this.setMenuProps(child, elementType, true)
+        this.setMenuProps(child, elementType, initial)
         return;
       }
     })
@@ -235,19 +215,51 @@ class Select extends React.Component {
     if (data !== this.menuProps.data ) {
       // 重置state
       this.state.data = data
-      this.state.expanded = (initial ? expanded || defaultExpanded : expanded) || []
-      this.state.inputValue = null
+      this.state.expanded = (initial ? (expanded || defaultExpanded) : expanded) || []
+      // this.state.inputValue = null
       this.state.searchInputValue = null
 
       if (this.isTreeElement(elementType)) {
         this.dataTree = new DataTree().import(data.slice())
-        this.state.data = this.dataTree.export()
+        // this.state.data = this.dataTree.export()
       }
     }
 
     this.menuProps = node.props
     this.menuType = elementType
+
+    this.updateInputValue(initial)
     
+  }
+
+  updateInputValue(initial) {
+    const { 
+      data,
+      commbox, 
+      selected, 
+      defaultSeleced, 
+      checked, 
+      defaultChecked
+    } = this.menuProps
+
+    let selectedValues, selectedDatas = []
+    
+    if (commbox) {
+      selectedValues = (initial ? (checked || defaultChecked) : checked) || []
+    } else {
+      selectedValues = (initial ? (selected || defaultSeleced) : selected) || []
+    }
+
+    // 根据节点选中项设置inputValue
+    selectedValues.forEach(value => {
+      const node = this.dataTree.searchDFS((data) => {
+        return data.id === value
+      })
+      node && selectedDatas.push(node.data())
+    })
+
+    let inputValue = selectedDatas.map(o => o.text).join(', ')
+    initial ? (this.state.inputValue = inputValue) : this.setState({ inputValue })
   }
 
   /**
@@ -307,6 +319,8 @@ class Select extends React.Component {
 
   onExpand(expanded, node) {
     const nodeValue = node.props.value
+    // 这里直接维护Tree.props.expanded的值，因为在搜索时，会用到
+    // TODO：如何结合外部组件传递给Tree的expanded？
     this.setState({
       expanded: expanded ? [...this.state.expanded, nodeValue] : this.state.expanded.filter(item => item !== nodeValue)
     })
@@ -314,19 +328,18 @@ class Select extends React.Component {
   }
 
   onSelect(selected, value, data, node) {
-    this.menuProps.onSelect(selected, value, data, node)
+    return this.menuProps.onSelect(selected, value, data, node)
   }
 
   onCheck(checked, value, data, node) {
-    this.menuProps.onCheck(checked, value, data, node)
+    return this.menuProps.onCheck(checked, value, data, node)
   }
 
   onChange(value, data, node) {
-    this.setInputValue(data)
     this.menuProps.onChange(value, data, node)
   }
 
-  setInputValue(data) {
+  setInputValue(data, initial) {
     let inputValue
     // 把数据更新到input
     if (data) {
@@ -336,7 +349,7 @@ class Select extends React.Component {
         inputValue = data.text
       }  
     }
-    this.setState({ inputValue })
+    initial ? (this.state.inputValue = inputValue) : this.setState({ inputValue })
   }
 
   handleSearchInputChange() {
@@ -423,7 +436,7 @@ Select.propTypes = {
 }
 
 Select.defaultProps = {
-  prefixCls: 'rc-select',
+  prefixCls: 'rt-select',
   emptyDataText: '没有可显示的数据',
   searchInputPlaceholder: '搜索',
   onFilter: noop

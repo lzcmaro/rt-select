@@ -171,7 +171,7 @@ TreeNode.propTypes = {
 }
 
 TreeNode.defaultProps = {
-  prefixCls: 'rc-tree-node',
+  prefixCls: 'rt-tree-node',
   onSelect: noop,
   onCheck: noop,
   onExpand: noop

@@ -1,22 +1,22 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../icomoon-fonts/icomoon.eot?bkbjik');
-  src: url('../icomoon-fonts/icomoon.eot?bkbjik#iefix') format('embedded-opentype'),
-    url('../icomoon-fonts/icomoon.ttf?bkbjik') format('truetype'),
-    url('../icomoon-fonts/icomoon.woff?bkbjik') format('woff'),
-    url('../icomoon-fonts/icomoon.svg?bkbjik#icomoon') format('svg');
+  src: url('../fonts/icomoon.eot?bkbjik');
+  src: url('../fonts/icomoon.eot?bkbjik#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?bkbjik') format('truetype'),
+    url('../fonts/icomoon.woff?bkbjik') format('woff'),
+    url('../fonts/icomoon.svg?bkbjik#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.rc-tree-panel { 
+.rt-tree-panel { 
 	overflow: auto; 
 
-	&.rc-tree-panel-bordered {
+	&.rt-tree-panel-bordered {
 		border: 1px solid #e7e7eb;
 	}
 }
-.rc-tree {
+.rt-tree {
 	list-style-type: none;
 	margin: 0;
 	padding: 5px;
@@ -26,7 +26,7 @@
 	-ms-user-select: none;
 	user-select: none;
 
-	.rc-tree-node {
+	.rt-tree-node {
 		list-style: none;
 		padding: 0;
 		margin: 2px 0;
@@ -74,14 +74,14 @@
 			padding: 0 0 0 18px;
 		}
 
-		&.rc-tree-node-selected > a {
+		&.rt-tree-node-selected > a {
 			line-height: 18px;
 			background: #e6e6e6;
 			border: 1px solid #ccc;
 			padding: 2px 4px;
 		}
 
-		&.rc-tree-node-expanded {
+		&.rt-tree-node-expanded {
 			> ul {
 				display: block;
 			}
@@ -96,13 +96,13 @@
 	} 
 }
 
-.rc-select {
+.rt-select {
 	min-width: 200px;
 	position: relative;
 	display: inline-block;
   vertical-align: middle;
 
-  > .rc-select-head {
+  > .rt-select-head {
   	position: relative;
     width: 100%;
     height: 32px;  
@@ -151,7 +151,7 @@
   	}
   }
 
-  > .rc-select-menu {
+  > .rt-select-menu {
 	  position: absolute;
 	  top: 100%;
 	  left: 0;
@@ -191,6 +191,7 @@
 
 	  	> input {
 	  		width: 100%;
+	  		height: 30px;
 	  		line-height: 28px;
 	  		padding: 0 26px 0 5px;
 	  		font-size: 12px;
@@ -201,8 +202,8 @@
 	}
 }
 
-.rc-tree,
-.rc-select {
+.rt-tree,
+.rt-select {
 	[class^="icon-"], [class*="icon-"] {
 	  /* use !important to prevent issues with browser extensions that change fonts */
 	  font-family: 'icomoon' !important;

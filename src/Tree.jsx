@@ -232,6 +232,10 @@ class Tree extends React.Component {
     const { selectedMaps } = this.state
     const { multiple, commbox, onSelect } = this.props
     const { value, data } = node.props
+
+    if (onSelect(selected, value, data, node) === false) {
+      return
+    }
     
     // 如果外面没有传递selected值过来，即调用setState()更新UI，否则就让外面维护这个状态
     if (!('selected' in this.props)) {
@@ -249,11 +253,8 @@ class Tree extends React.Component {
 
     // 多选，且有commbox时，不触发其onChange事件，以commbox的check为主
     // 单选，且有commbox时，该onSelect不会被触发，这里不需处理
-    if (multiple && commbox) {
-      onSelect(selected, value, data, node)
-    } else {
+    if (!(multiple && commbox)) {
       this.setSelectedNodes(selected, data, 'selectedNodes')
-      onSelect(selected, value, data, node)
       this.fireChange({selected, value, data, node, selectedNodes: this.selectedNodes})
     }
 
@@ -263,7 +264,12 @@ class Tree extends React.Component {
     // console.log('Tree.onCheck', checked, node)
     const { multiple, commbox } = this.props
     const { value, data } = node.props
-    
+    const checkState = checkStateToBoolean(checked)
+
+    if (this.props.onCheck(checkState, value, data, node) === false) {
+      return
+    }
+
     this.toggleCheckState(checked, data)
 
     // 如果外面没有传递checked值过来，即调用setState()更新UI，否则就让外面维护这个状态
@@ -275,10 +281,9 @@ class Tree extends React.Component {
         selectedMaps: !multiple ? {[value]: checkStateToBoolean(checked)} : this.state.selectedMaps
       })
     }
-
-    const checkState = checkStateToBoolean(checked)
-    this.props.onCheck(checkState, value, data, node)
+    
     this.fireChange({selected: checkState, value, data, node, selectedNodes: this.checkedNodes})
+    
   }
 
   setSelectedNodes(selected, data, dataKey) {
@@ -526,7 +531,7 @@ Tree.propTypes = {
 }
 
 Tree.defaultProps = {
-  prefixCls: 'rc-tree',
+  prefixCls: 'rt-tree',
   bordered: true,
   useArrow: true,
   onExpand: noop,

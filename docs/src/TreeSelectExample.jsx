@@ -61,18 +61,19 @@ class TreeSelectExample extends React.Component {
     });
 
     this.state = {
-    	treeData: treeData,
+    	treeData: [],
     	expandAll: false,
-    	checked: null
+    	checked: []
     }
   }
 
   componentDidMount() {
-  	// setTimeout(() => {
-  	// 	this.setState({
-  	// 		treeData: generateData(10, 5, 2)
-  	// 	})
-  	// }, 3000)
+  	setTimeout(() => {
+  		this.setState({
+  			treeData,
+        checked: ['1-0']
+  		})
+  	}, 3000)
   }
 
   render() {
@@ -99,10 +100,9 @@ class TreeSelectExample extends React.Component {
     			multiple
     			commbox
     			expandAll={expandAll} 
-    			defaultExpanded={['1', '0-1']}
+          defaultExpanded={['1', '0-1']}
     			data={treeData}
     			checked={checked}
-    			defaultChecked={['1-0']}
     			onExpand={this.onExpand}
     			onSelect={this.onSelect}
     			onCheck={this.onCheck}
@@ -117,10 +117,12 @@ class TreeSelectExample extends React.Component {
 
   onSelect(selected, value, data, node) {
   	// console.log('onSelect: ', selected, value, data, node)
+    // return false 
   }
 
   onCheck(checked, value, data, node) {
   	// console.log('onCheck: ', checked, value, data, node)
+    // return false 
   }
 
   onChange(value, data, node) {
