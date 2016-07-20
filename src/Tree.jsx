@@ -25,19 +25,25 @@ class Tree extends React.Component {
       this[m] = this[m].bind(this);
     });
 
-    this.dataTree = new DataTree().import(props.data.slice())
+    /**
+     * 初始化状态标识
+     * 数据一般都是异步加载，在生成Component时，由于props.data为空，导致props.defaultChecked等值无效
+     * 这里折中处理下，加一个状态标识，以便在props.data第一次不为空的情况下，取值于defaultChecked，而不是取值于checked
+     */
+    this.initial = true
 
     this.state = {
-      treeDatas: this.dataTree.export(),
+      treeDatas: props.data,
       /**
        * 用来存储当前树选中的checkbox状态
        * @type {Object} key为node.value，value值，1为选中，2为半选中
        */
-      checkedMaps: this.getCheckedMaps(props, true),
-      selectedMaps: this.getSelectedMaps(props, true),
-      expandedMaps: this.getExpandedMaps(props, props.data, true)
+      checkedMaps: this.getCheckedMaps(props),
+      selectedMaps: this.getSelectedMaps(props),
+      expandedMaps: this.getExpandedMaps(props, props.data)
     }
 
+    this.initial = !(props.data && props.data.length > 0)
     /**
      * 存储当前树所有节点的对象，方便后面通过node.value可以获取
      * @type {Object}
@@ -49,6 +55,10 @@ class Tree extends React.Component {
      */
     this.selectedNodes = []
     this.checkedNodes = []
+    /**
+     * 把数据导入到DataTree中，方便后面搜索用
+     */
+    this.dataTree = new DataTree().import(props.data.slice())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,13 +67,13 @@ class Tree extends React.Component {
 
     // 数据改变时，重设map数据，避免存在脏数据
     if (data !== nextProps.data || dataMode !== nextProps.dataMode) {
-      this.dataTree = new DataTree({dataMode})
       this.nodeMaps = {}
       this.state.selectedMaps = {}
       this.state.checkedMaps = {}
       this.state.expandedMaps = {}
 
-      treeDatas = this.dataTree.import(data).export()
+      treeDatas = props.data
+      this.dataTree.import(data.slice())
     }
 
     if (checked !== nextProps.checked) {
@@ -77,6 +87,8 @@ class Tree extends React.Component {
     if (expanded !== nextProps.expanded || expandAll !== nextProps.expandAll) {
       expandedMaps = this.getExpandedMaps(nextProps, nextProps.data)
     }
+
+    this.initial = !(nextProps.data && nextProps.data.length > 0)
 
     this.setState({treeDatas, checkedMaps, selectedMaps, expandedMaps})
       
@@ -103,10 +115,10 @@ class Tree extends React.Component {
     );
   }
 
-  getCheckedMaps(props, initial) {
+  getCheckedMaps(props) {
     const { data, multiple, commbox, checked, defaultChecked } = props
     // 不是初始化时，只取checked的值，否则优先取值于checked
-    const values = (initial ? checked || defaultChecked : checked) || []
+    const values = (this.initial ? checked || defaultChecked : checked) || []
     let map = {}
 
     if (commbox) {
@@ -118,10 +130,10 @@ class Tree extends React.Component {
     return map
   }
 
-  getSelectedMaps(props, initial) {
+  getSelectedMaps(props) {
     const { multiple, selected, defaultSelected } = props
     // 不是初始化时，只取selected的值，否则优先取值于selected
-    const values = (initial ? selected || defaultSelected : selected) || []
+    const values = (this.initial ? selected || defaultSelected : selected) || []
     let map = {}
 
     // 单选模式下，只选取第一个值
@@ -130,7 +142,7 @@ class Tree extends React.Component {
     return map
   }
 
-  getExpandedMaps(props, data, initial) {
+  getExpandedMaps(props, data) {
     const { expandAll, expanded, defaultExpanded } = props
     let map = {}
 
@@ -146,7 +158,7 @@ class Tree extends React.Component {
       })
     } else {
       // 不是初始化时，只取expanded的值，否则优先取值于expanded
-      let values = (initial ? expanded || defaultExpanded : expanded) || []
+      let values = (this.initial ? expanded || defaultExpanded : expanded) || []
       values.forEach(item => (map[item] = true))
     }
 
@@ -383,7 +395,7 @@ class Tree extends React.Component {
       children.forEach(child => {
         // 这里需要取到TreeNode节点对象，以便获取它现在的选择状态
         const node = this.nodeMaps[ child.id ]
-        // 节点的checked可能已发生变化，但UI还没更新，这里需要从checkedMaps中获取它最新的checkState
+        // 节点的checkState在checkMaps中可能已发生变化，但UI还没更新，这里需要从checkedMaps中获取它最新的checkState
         const childCheckState = checkedMaps[node.props.value] !== undefined ? checkedMaps[node.props.value] : node.props.checked 
 
         if (childCheckState === CHECKBOX_CHECKED) {

@@ -14,7 +14,7 @@ var webpackConfig = require('./webpack.config.js');
 
 var DIR_DIST = 'dist/';
 var DIR_DIST_CSS = 'dist/css'
-var DIR_DIST_FONTS = 'dist/icomoon-fonts'
+var DIR_DIST_FONTS = 'dist/fonts'
 var DIR_LIB = 'lib/'
 
 gulp.task('webpack', function() {
@@ -43,7 +43,7 @@ gulp.task('less', function() {
 });
 
 gulp.task('fonts', function() {
-    return gulp.src('./src/icomoon-fonts/*')
+    return gulp.src('./src/fonts/*')
         .pipe(gulp.dest(DIR_DIST_FONTS))
 })
 

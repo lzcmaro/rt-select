@@ -3,30 +3,12 @@ import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import DataTree from './helpers/dataTree'
 import { 
+  noop,
   ownerDocument, 
   addEventListener,
   TREE_ELEMENT, 
   LIST_ELEMENT
 } from './helpers/util'
-
-const noop = () => {};
-
-const CLICK_WAS_INSIDE = '__click_was_inside__';
-let counter = 0;
-
-function getSuppressRootClose() {
-  let id = CLICK_WAS_INSIDE + counter++;
-  return {
-    id,
-    suppressRootClose(event) {
-      // Tag the native event to prevent the root close logic on document click.
-      // This seems safer than using event.nativeEvent.stopImmediatePropagation(),
-      // which is only supported in IE >= 9.
-      event.nativeEvent[id] = true;
-      event.stopPropagation();
-    }
-  };
-}
 
 class Select extends React.Component {
 
@@ -48,7 +30,7 @@ class Select extends React.Component {
     this.state = {
       /**
        * 用于渲染下拉菜单的数据，取自于Tree.props.data或List.props.data
-       * 因为有搜索功能，这个data在搜索时会发生变化
+       * 因为有搜索功能，这个data在搜索时会发生变化，所以需要在这里维护
        * @type {[type]}
        */
       data: [],
@@ -73,7 +55,12 @@ class Select extends React.Component {
        */
       searchInputValue: undefined
     }
-
+    /**
+     * 初始化状态标识
+     * 数据一般都是异步加载，在生成Component时，由于props.data为空，导致props.defaultChecked等值无效
+     * 这里折中处理下，加一个状态标识，以便在props.data第一次不为空的情况下，取值于defaultChecked，而不是取值于checked
+     */
+    this.initial = true
     /**
      * 存储Tree, List组件的原有数据和事件
      */
@@ -89,19 +76,20 @@ class Select extends React.Component {
      */
     this.menuType = null
     this.searchInputRef = 'search-input'
-    this.initializeMenuProps(props, true)
+    this.initializeMenuProps(props)
 
     /**
      * 存储tree数据的类对象，用于数据搜索
      */
     this.dataTree// = new DataTree().import()
-
     /**
      * 用于阻止事件冒泡，参考react-overlay的做法
      */
-    const { id, suppressRootClose } = getSuppressRootClose()
-    this._suppressRootId = id;
-    this._suppressRootCloseHandler = suppressRootClose
+    this._suppressRootId = Symbol('__click_was_inside__')
+    this._suppressRootCloseHandler = (event) => {
+      event.nativeEvent[this._suppressRootId] = true
+      event.stopPropagation()
+    }
   }
 
   componentDidMount() {
@@ -113,7 +101,7 @@ class Select extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.initializeMenuProps(nextProps, false)
+    this.initializeMenuProps(nextProps)
   }
 
   render() {
@@ -145,7 +133,7 @@ class Select extends React.Component {
 
             // 检查数据是否有更新
             if (child.props !== this.menuProps) {
-              this.setMenuProps(child, elementType)
+              this.updateMenuProps(child, elementType)
             }
 
             // 这里获取最新数据
@@ -195,27 +183,27 @@ class Select extends React.Component {
     )
   }
 
-  initializeMenuProps(props, initial) {
+  initializeMenuProps(props) {
     // TODO: 是否有必要遍历其所有子节点，找到这里需要接管的组件（Tree, List）？
     React.Children.forEach(props.children, child => {
       // 节点为Tree, List组件时，给它添加相应的属性与事件，以便Tree和Select关联起来
       const elementType = this.isValidElement(child)
       if (elementType) {
-        this.setMenuProps(child, elementType, initial)
+        this.updateMenuProps(child, elementType)
         return;
       }
     })
 
   }
 
-  setMenuProps(node, elementType, initial) {
+  updateMenuProps(node, elementType) {
     // 把要接管的组件props存储起来，方便后面使用
     const { data, expanded, defaultExpanded } = node.props
     
     if (data !== this.menuProps.data ) {
       // 重置state
       this.state.data = data
-      this.state.expanded = (initial ? (expanded || defaultExpanded) : expanded) || []
+      this.state.expanded = (this.initial ? (expanded || defaultExpanded) : expanded) || []
       // this.state.inputValue = null
       this.state.searchInputValue = null
 
@@ -225,14 +213,16 @@ class Select extends React.Component {
       }
     }
 
+    // 如果menuProps.data已有数据，把initial设为false
+    this.initial = !(this.initial && this.menuProps.data && this.menuProps.data.length > 0)
     this.menuProps = node.props
     this.menuType = elementType
 
-    this.updateInputValue(initial)
+    this.updateInputValue()
     
   }
 
-  updateInputValue(initial) {
+  updateInputValue() {
     const { 
       data,
       commbox, 
@@ -245,9 +235,9 @@ class Select extends React.Component {
     let selectedValues, selectedDatas = []
     
     if (commbox) {
-      selectedValues = (initial ? (checked || defaultChecked) : checked) || []
+      selectedValues = (this.initial ? (checked || defaultChecked) : checked) || []
     } else {
-      selectedValues = (initial ? (selected || defaultSeleced) : selected) || []
+      selectedValues = (this.initial ? (selected || defaultSeleced) : selected) || []
     }
 
     // 根据节点选中项设置inputValue
@@ -259,7 +249,7 @@ class Select extends React.Component {
     })
 
     let inputValue = selectedDatas.map(o => o.text).join(', ')
-    initial ? (this.state.inputValue = inputValue) : this.setState({ inputValue })
+    this.initial ? (this.state.inputValue = inputValue) : this.setState({ inputValue })
   }
 
   /**
