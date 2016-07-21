@@ -34,7 +34,7 @@ gulp.task('webpack', function() {
 });
 
 gulp.task('less', function() {
-	return gulp.src('./src/less/*.less')
+	return gulp.src('./src/less/rt-select.less')
 		.pipe(less())
     .pipe(gulp.dest(DIR_DIST_CSS))
     .pipe(minifyCss())

@@ -1,0 +1,99 @@
+.rt-tree-panel { 
+	overflow: auto; 
+	background-color: @bg-color;
+
+	&.rt-tree-panel-bordered {
+		border: 1px solid @border-color;
+	}
+}
+.rt-tree {
+	list-style-type: none;
+	margin: 0;
+	padding: 5px;
+	outline: 0;
+	.user-select(none);
+	
+	// tree-node
+	li {
+		list-style: none;
+		padding: 0;
+		margin: 2px 0;
+		white-space: nowrap;
+		outline: 0;
+		line-height: 24px;
+
+		> i {
+			display: block;
+	    float: left;
+			margin: 5px 3px 0 0;
+	    width: 14px;
+	    height: 14px;
+	    font-size: @font-size-base;
+	    vertical-align: middle;
+	    border: 0 none;
+	    cursor: pointer;
+	    color: @tree-node-icon-color;
+
+	    &.icon-arrow {
+	    	padding: 1px; 
+	    	font-size: 12px;
+			}
+		}
+
+		> a {
+			display: inline-block;
+	    padding: 2px 3px;
+	    cursor: pointer;
+	    font-size: @font-size-base;
+	    text-decoration: none;
+	    line-height: 20px;
+	    vertical-align: top;
+	    text-align: left;
+	    color: @font-color;
+
+	    &:hover {
+	    	background: #f5f5f5;
+	    }
+		}
+
+		> ul {
+			display: none;
+			margin: 0;
+			padding: 0 0 0 18px;
+
+			// animation
+			.collapse {
+			  display: none;
+
+			  &.in { display: block; }
+			}
+
+			.collapsing {
+			  position: relative;
+			  height: 0;
+			  overflow: hidden;
+			  .transition-property(~"height, visibility");
+			  .transition-duration(.35s);
+			  .transition-timing-function(ease);
+			}
+		}
+
+		&.rt-tree-node-selected > a {
+			line-height: 18px;
+			background: #e6e6e6;
+			border: 1px solid #ccc;
+			padding: 2px 4px;
+		}
+
+		&.rt-tree-node-expanded {
+			> ul {
+				display: block;
+			}
+
+			> i.icon-arrow {
+				.rotate(90deg);
+			}
+		}
+
+	} 
+}

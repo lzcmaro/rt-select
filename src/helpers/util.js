@@ -9,10 +9,6 @@ export const ROOT_ID = '-1'
 
 export function noop() {}
 
-export function prefix(props = {}, variant) {
-  return props.prefixCls + (variant ? '-' + variant : '');
-}
-
 export function checkStateToBoolean(state) {
   return state === CHECKBOX_CHECKED ? true : false
 }

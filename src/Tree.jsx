@@ -4,7 +4,6 @@ import TreeNode from './TreeNode'
 import DataTree from './helpers/dataTree'
 
 import { 
-  prefix,
   noop, 
   checkStateToBoolean,
   booleanToCheckState,
@@ -72,7 +71,7 @@ class Tree extends React.Component {
       this.state.checkedMaps = {}
       this.state.expandedMaps = {}
 
-      treeDatas = props.data
+      treeDatas = nextProps.data
       this.dataTree.import(data.slice())
     }
 
@@ -95,18 +94,21 @@ class Tree extends React.Component {
   }
 
   render() {
-    const { data, bordered, className, style, width, height, prefixCls, children, ...otherProps } = this.props
+    const { data, animate, bordered, className, style, width, height, prefixCls, children, ...otherProps } = this.props
     const { treeDatas } = this.state
-    const wrapperPrefixCls = prefix(this.props, 'panel')
+    const wrapperPrefixCls = `${prefixCls}-panel`
     const wrapperStyle = {...(style || {}), width, height}
     const wrapperCls = {
       [wrapperPrefixCls]: true,
       [`${wrapperPrefixCls}-bordered`]: bordered
     }
+    const treeCls = {
+      [prefixCls]: true
+    }
   	
     return (
     	<div unselectable style={wrapperStyle} className={classnames(className, wrapperCls)}>
-    		<ul {...otherProps} className={prefixCls}>       
+    		<ul {...otherProps} className={classnames(treeCls)}>       
           {treeDatas.map((item, index) => {
             return this.generateTreeNode(item, index)
           })}
@@ -179,7 +181,7 @@ class Tree extends React.Component {
     }
 
     const { expandedMaps, selectedMaps, checkedMaps } = this.state
-    const { multiple, commbox } = this.props
+    const { multiple, commbox, animate } = this.props
     const { id: value, text, children } = nodeData
     const path = nodeData.path || `${prePath}-${index}`
     const selected = selectedMaps[value] || false
@@ -544,6 +546,7 @@ Tree.propTypes = {
 
 Tree.defaultProps = {
   prefixCls: 'rt-tree',
+  animate: true,
   bordered: true,
   useArrow: true,
   onExpand: noop,

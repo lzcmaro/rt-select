@@ -22,7 +22,7 @@ const baseConfig = {
       loader: 'json' 
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style', 'css!less')
+      loader: ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
     }, { 
       test: /\.(jpe?g|gif|png)$/, 
       loader: 'url-loader?name=images/[name].[ext]'

@@ -73,7 +73,7 @@ class TreeSelectExample extends React.Component {
   			treeData,
         checked: ['1-0']
   		})
-  	}, 3000)
+  	}, 2000)
   }
 
   render() {

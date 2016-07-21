@@ -1,6 +1,6 @@
 {
   "name": "rt-select",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "tree, select, tree-select ui component for react",
   "main": "lib/index.js",
   "scripts": {
@@ -76,6 +76,7 @@
     "nodemon": "^1.8.1",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
+    "react-overlays": "^0.6.5",
     "react-transform-hmr": "^1.0.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.0",

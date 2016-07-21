@@ -309,8 +309,7 @@ class Select extends React.Component {
 
   onExpand(expanded, node) {
     const nodeValue = node.props.value
-    // 这里直接维护Tree.props.expanded的值，因为在搜索时，会用到
-    // TODO：如何结合外部组件传递给Tree的expanded？
+    // 这里维护Tree.props.expanded的值，因为在搜索时，会用到
     this.setState({
       expanded: expanded ? [...this.state.expanded, nodeValue] : this.state.expanded.filter(item => item !== nodeValue)
     })
@@ -318,11 +317,41 @@ class Select extends React.Component {
   }
 
   onSelect(selected, value, data, node) {
-    return this.menuProps.onSelect(selected, value, data, node)
+    return this.onEvent('select', selected, value, data, node)
   }
 
   onCheck(checked, value, data, node) {
-    return this.menuProps.onCheck(checked, value, data, node)
+    return this.onEvent('check', checked, value, data, node)
+  }
+
+  onEvent(eventType, selected, value, data, node) {
+    const { selectToClose } = this.props
+    const { multiple, onSelect, onCheck } = this.menuProps
+    let result
+
+    switch (eventType) {
+      case 'select': (
+        result = onSelect(selected, value, data, node)
+      ); break;
+      case 'check': (
+        result = onCheck(selected, value, data, node)
+      ); break;
+    }
+
+    if (!multiple && selected && selectToClose && result !== false) {
+      this.toggleMenuVisible()
+    }
+
+    return result
+  }
+
+  selectToClose() {
+    const { selectToClose } = this.props
+    const { multiple } = this.menuProps
+    // 单选时，如果选中了选项，关闭下拉菜单
+    if (!multiple && selected && selectToClose) {
+      this.toggleMenuVisible()
+    }
   }
 
   onChange(value, data, node) {
@@ -420,16 +449,16 @@ Select.propTypes = {
    */
   searchInputPlaceholder: PropTypes.string,
   /**
-   * 在输入文字进行节点过滤时的回调事件（仅useSearch=true时有效）
+   * 选中时，是否自动关闭下拉菜单（仅单选有效）
    */
-  onFilter: PropTypes.func
+  selectToClose: PropTypes.bool
 }
 
 Select.defaultProps = {
   prefixCls: 'rt-select',
   emptyDataText: '没有可显示的数据',
   searchInputPlaceholder: '搜索',
-  onFilter: noop
+  selectToClose: true
 }
 
 export default Select;

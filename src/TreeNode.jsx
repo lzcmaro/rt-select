@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import classnames from 'classnames'
 
-import { prefix, noop, CHECKBOX_CHECKED, CHECKBOX_UNCHECKED, CHECKBOX_PARTIAL, booleanToCheckState } from './helpers/util'
+import { noop, CHECKBOX_CHECKED, CHECKBOX_UNCHECKED, CHECKBOX_PARTIAL, booleanToCheckState } from './helpers/util'
 
 class TreeNode extends React.Component {
 
@@ -19,15 +19,13 @@ class TreeNode extends React.Component {
 
   render() {
     const props = this.props
-    const { value, text, selected, multiple, commbox, checked, expanded, qtip, className, children } = props
-    const prefixCls = prefix(props)
+    const { value, text, selected, multiple, commbox, checked, expanded, qtip, prefixCls, className, children } = props
     const classes = {
       [prefixCls]: true,
       // 展开节点后的样式
-      [prefix(props, 'expanded')]: expanded,
-      // 没有commbox时，选中行的样式
-      [prefix(props, 'selected')]: selected,
-      [prefix(props, 'checked')]: checked
+      [`${prefixCls}-expanded`]: expanded,
+      [`${prefixCls}-selected`]: selected,
+      [`${prefixCls}-checked`]: checked
     }
   	
     return (
@@ -149,10 +147,6 @@ TreeNode.propTypes = {
    * 是否显示节点箭头
    */
   useArrow: PropTypes.bool,
-  /**
-   * 单击节点（文本）时，是否展开节点
-   */
-  clickExpand: PropTypes.bool,
   /**
    * 选取节点时的回调事件
    * @type {[function(isSelected, node)]}
