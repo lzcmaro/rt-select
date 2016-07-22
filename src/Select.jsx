@@ -393,8 +393,8 @@ class Select extends React.Component {
 
   filterTreeDatas(keyWord) {
     const { data } = this.menuProps
+    console.log(data)
     let expanded = []
-
     if (!keyWord) {
       return {data}
     }
@@ -402,28 +402,82 @@ class Select extends React.Component {
     // 重置树节点数据
     const tree = this.dataTree
     tree.import(data.slice())
-
     // 使用深度优先搜索算法搜索树节点
     tree.traverseDFS((node) => {
       const nodeData = node.data()
       if (nodeData.text.indexOf( keyWord ) > -1) {
         expanded.push( nodeData.id )
+        Object.assign(nodeData,{expanded: true})
         //获取它所有的祖先节点，把它的ID放到map中
         node.getAncestry().forEach(item => {
-          expanded.push( item.data().id )
+          const id = item.data().id
+          item.data({...item.data(), expanded: true})
+          if (this.contains(id, expanded) === false) {
+            expanded.push( id )
+          }
         })
+      }else{
+        // 为避免上次记录被保存，没有展开的再次遍历，设置false
+        Object.assign(nodeData,{expanded: false})
       }
     })
+    const treeDatas = tree.export()
+    const afterFilter = this.filterExpanedTree(treeDatas)
+    // 重置
+    this.dataTree.import(afterFilter.slice())
 
     // 只搜索到一个节点时，不展开该节点
-    if (expanded.length === 1) return { data, expanded: [] };
-    else if (expanded.length > 1) return { data, expanded };
+    if (expanded.length === 1) return { data:afterFilter, expanded: [] };
+    else if (expanded.length > 1) return { data:afterFilter, expanded };
     else return { data: null }
 
   }
 
+  // 数组中是否包含  
+  contains(id, arr) {
+    let bool = false
+    arr.map(item => {
+      if (item == id) {
+        return bool = true
+      }
+    })
+    return bool
+  } 
+
+  // 对过滤展开的树进行递归筛选
+  filterExpanedTree(treeDatas) {
+    const tree = []
+    const loopTree = (trees, store) => {
+      Array.isArray(trees) && trees.map(item => {
+        if (item.expanded === true) {
+          const node = {
+            id: item.id,
+            text: item.text            
+          }
+          const children = this.childNodeHasExpaned(item.children) ? [] : item.children
+          Object.assign(node,{children})
+          store.push(node)  
+          loopTree(item.children, node.children)
+        }
+      }) 
+    }
+    loopTree(treeDatas, tree)
+    return tree
+  }
+
   filterListDatas(keyWord) {
     // TODO
+  }
+  // 判断其孩子中是否包含需要展开的节点。
+  childNodeHasExpaned(children) {
+    // 假设没有
+    let bool = false
+    Array.isArray(children) && children.forEach(item => {
+      if (item.expanded === true) {
+        return bool = true
+      }
+    })
+    return bool
   }
 
 }
