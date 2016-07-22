@@ -44,6 +44,45 @@ const treeData = [{
 							}]
 				}]
 		}]
+},{
+  id: '2',
+  text: '北京市',
+  children: [{
+      id: '2-0',
+      text: '平谷区',
+      children: [{
+          id: '2-0-0',
+            text: '夏谷庄镇',
+            children: [{
+                id: '2-0-0-0',
+                text: '马各庄村'
+              }]
+        }]
+    }, {
+      id: '2-1',
+      text: '顺义区',
+      children: [{
+          id: '2-1-0',
+            text: '杨镇',
+            children: [{
+                id: '2-1-0-0',
+                text: '李各庄村'
+              }, {
+                id: '2-1-0-1',
+                text: '一街村'
+              }, {
+                id: '2-1-0-2',
+                text: '二郎庙村'
+              }]
+        }, {
+          id: '2-1-1',
+            text: '木林镇',
+            children: [{
+                id: '1-1-1-0',
+                text: '荣各庄村'
+              }]
+        }]
+    }]
 }]
 
 class TreeSelectExample extends React.Component {

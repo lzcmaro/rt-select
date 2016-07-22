@@ -393,7 +393,6 @@ class Select extends React.Component {
 
   filterTreeDatas(keyWord) {
     const { data } = this.menuProps
-    console.log(data)
     let expanded = []
     if (!keyWord) {
       return {data}
@@ -404,25 +403,17 @@ class Select extends React.Component {
     tree.import(data.slice())
     // 使用深度优先搜索算法搜索树节点
     tree.traverseDFS((node) => {
-      const nodeData = node.data()
-      if (nodeData.text.indexOf( keyWord ) > -1) {
-        expanded.push( nodeData.id )
-        Object.assign(nodeData,{expanded: true})
-        //获取它所有的祖先节点，把它的ID放到map中
-        node.getAncestry().forEach(item => {
-          const id = item.data().id
-          item.data({...item.data(), expanded: true})
-          if (this.contains(id, expanded) === false) {
-            expanded.push( id )
-          }
+      // 如果存在多各根节点的情形
+      if (node._depth == 1 && node._childNodes.length > 1) {
+        node._childNodes.forEach(nodeItem => {
+          this.loopDFS_keyWord(nodeItem,expanded,keyWord)
         })
-      }else{
-        // 为避免上次记录被保存，没有展开的再次遍历，设置false
-        Object.assign(nodeData,{expanded: false})
+      } else {
+        this.loopDFS_keyWord(node,expanded,keyWord)
       }
     })
-    const treeDatas = tree.export()
-    const afterFilter = this.filterExpanedTree(treeDatas)
+
+    const afterFilter = this.filterExpanedTree( tree.export())
     // 重置
     this.dataTree.import(afterFilter.slice())
 
@@ -431,6 +422,25 @@ class Select extends React.Component {
     else if (expanded.length > 1) return { data:afterFilter, expanded };
     else return { data: null }
 
+  }
+  
+  loopDFS_keyWord(node, expanded, keyWord) {
+    const nodeData = node.data()
+    if (nodeData.text.indexOf( keyWord ) > -1) {
+      expanded.push( nodeData.id )
+      Object.assign(nodeData,{expanded: true})
+      //获取它所有的祖先节点，把它的ID放到map中
+      node.getAncestry().forEach(item => {
+        const id = item.data().id
+        item.data({...item.data(), expanded: true})
+        if (this.contains(id, expanded) === false) {
+          expanded.push( id )
+        }
+      })
+    }else{
+      // 为避免上次记录被保存，没有展开的再次遍历，设置false
+      Object.assign(nodeData,{expanded: false})
+    }
   }
 
   // 数组中是否包含  
