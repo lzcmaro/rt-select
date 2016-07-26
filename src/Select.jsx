@@ -415,7 +415,7 @@ class Select extends React.Component {
 
     const afterFilter = this.filterExpanedTree( tree.export())
     // 重置
-    this.dataTree.import(afterFilter.slice())
+    this.dataTree.import(data.slice())
 
     // 只搜索到一个节点时，不展开该节点
     if (expanded.length === 1) return { data:afterFilter, expanded: [] };
