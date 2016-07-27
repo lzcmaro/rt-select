@@ -217,7 +217,6 @@ class Select extends React.Component {
     this.initial = !(this.initial && this.menuProps.data && this.menuProps.data.length > 0)
     this.menuProps = node.props
     this.menuType = elementType
-
     this.updateInputValue()
     
   }
@@ -397,7 +396,6 @@ class Select extends React.Component {
     if (!keyWord) {
       return {data}
     }
-
     // 重置树节点数据
     const tree = this.dataTree
     tree.import(data.slice())
@@ -460,12 +458,9 @@ class Select extends React.Component {
     const loopTree = (trees, store) => {
       Array.isArray(trees) && trees.map(item => {
         if (item.expanded === true) {
-          const node = {
-            id: item.id,
-            text: item.text            
-          }
-          const children = this.childNodeHasExpaned(item.children) ? [] : item.children
-          Object.assign(node,{children})
+          const { children, ...node} = item
+          const childrens = this.childNodeHasExpaned(item.children) ? [] : item.children
+          Object.assign(node,{children: childrens})
           store.push(node)  
           loopTree(item.children, node.children)
         }
